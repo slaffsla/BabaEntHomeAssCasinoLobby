@@ -3,11 +3,15 @@
     font-family: "Digitaldream", Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 12px;
-    left: 50%;
+    left: 45%;
     top: 50%;
     border-radius: 6px;
     color: rgb(0, 50, 17);
     text-align: center;
+
+    img {
+        animation: animRollOver 0.5s 5 alternate;
+    }
 }
 
 .locker {
@@ -69,11 +73,8 @@
     from {
         transform: scale(1)
     }
-
     to {
         transform: scale(1.1);
-      
-        
     }
 }
 

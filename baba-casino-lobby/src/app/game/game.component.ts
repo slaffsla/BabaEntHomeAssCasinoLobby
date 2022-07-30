@@ -14,7 +14,8 @@ export class GameComponent implements OnInit {
   public totalBet: number = 1;
   public totalWin: number = 0;
   public myBalance: number = 1000;
-  public currentLinesMaxBet: number = 25;
+  public totalLines:number = 25;
+  public currentBet: number = 1;
 
   public displayPayTable: boolean = false;
 
@@ -173,11 +174,19 @@ export class GameComponent implements OnInit {
   }
   updateBetMinus() {
     this.audioService.playClick();
-    if (this.totalBet > 0) this.totalBet -= 1
+    if (this.currentBet > 0){
+      this.currentBet -= 1
+      this.setTotalBet();
+    } 
   }
   updateBetPlus() {
     this.audioService.playClick();
-    if (this.totalBet < this.currentLinesMaxBet) this.totalBet += 1
+    this.currentBet += 1;
+    this.setTotalBet();
+    
+  }
+  setTotalBet(){
+    this.totalBet = (this.currentBet * 25 );
   }
   showPayTable() {
     this.audioService.playClick();
@@ -190,7 +199,8 @@ export class GameComponent implements OnInit {
   }
   setMaxBet() {
     this.audioService.playClick();
-    this.totalBet = this.currentLinesMaxBet;
+    this.currentBet = 25;
+    this.setTotalBet();
   }
   spin() {
     if (this.isSpinning) return;

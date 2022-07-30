@@ -122,8 +122,14 @@ canvas{
   #totalWin {
     margin-left: 120px;
   }
+  
 }
-
+#currentBet {
+  margin-left: 130px;
+  color: white;
+  padding-top: 34px;
+  position: absolute;
+}
 .btn-panel {
   position: absolute;
   bottom: 100px;
@@ -298,26 +304,4 @@ div.modal-body,
 div.modal-header {
   background-color: #000000de;
   color: white;
-}
-
-.preview {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  background: black !important;
-  margin: auto;
-  z-index: 999999;
-  width: 480px;
-  text-align: center;
-}
-
-.preview img {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  background: black !important;
-  margin: auto;
-  z-index: 999999999;
 }
