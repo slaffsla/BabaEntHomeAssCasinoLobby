@@ -3,13 +3,11 @@
         <input class="intBtn" (click)="returnBack()" class="off" type="image" src='../assets/lobby/arrow-left.png' />
         <label>GO BACK</label>
     </div>
-    <div *ngIf="(displayPayTable)" class="paytable">
-        <div class="card" style="width:100%;height:50%;z-index: 9;display: inline-grid;justify-content: center;">
-            <img class="card-img-top" src='../../assets/slot-1128/symbol_2.png' style="width:70px;height: 60px;"
+    <div *ngIf="(displayPayTable)" class="paytable" >
+        <div class="card" style="opacity: 0.9;width:100%;height:50%;background-color: black;z-index: 9;display: inline-grid;justify-content: center;">
+            <div style="display:contents;justify-content: center">
+                <img class="card-img-top" src='../../assets/slot-1128/paytable.png'
                 alt="Card image">
-            <div class="card-body">
-                <h5 class="card-title">PAYTABLE</h5>
-                <p class="card-text">777xxx77777</p>
                 <a (click)="showPayTable()" class="btn btn-primary">Close</a>
             </div>
         </div>
@@ -26,7 +24,9 @@
     </div>
 
     <div class="machineBox">
-        <div class="wheels-wrapper">
+        <div class="wheels-wrapper" id="wheels-wrapper">
+            <canvas id="canvas">
+            </canvas>
             <div class="reelDivMain" id="r1" style="margin-left: -9px;">
                 <div class={{r1Class}} *ngFor="let item of wheel1">
                     <img src={{item}}>

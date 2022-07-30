@@ -8,12 +8,13 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  constructor(private router: Router, private route: ActivatedRoute, private audioService: AudioService,@Inject(DOCUMENT) private document: Document) {
+  constructor(private router: Router, private route: ActivatedRoute, private audioService: AudioService, @Inject(DOCUMENT) private document: Document) {
   }
   public isSpinning: boolean = false;
   public totalBet: number = 1;
   public totalWin: number = 0;
-  public myBalance: number = 77777;
+  public myBalance: number = 1000;
+  public currentLinesMaxBet: number = 25;
 
   public displayPayTable: boolean = false;
 
@@ -56,7 +57,15 @@ export class GameComponent implements OnInit {
   currentIndex = 1;
   intervalInstance: any;
 
-
+  clearAnimations() {
+    this.clearCanvas();
+    function updateClass(htmlObject: any, className: string) {
+      for (let i = 0; i < htmlObject.length; i++) {
+        htmlObject[i].className = className;
+      }
+    }
+    updateClass(this.document.getElementById('wheels-wrapper').getElementsByTagName('img'), 'none');
+  }
   animateSpin() {
     this.isSpinning = true;
     this.totalWin = 0;
@@ -80,39 +89,83 @@ export class GameComponent implements OnInit {
     setTimeout(() => { this.r4Class = 'spinBottom' }, 110);
     setTimeout(() => { this.r5Class = 'spinBottom' }, 150);
     setTimeout(() => { this.audioService.playEndSpin() }, 650);
-    setTimeout(() => { this.showWin() }, 3000);
-    setTimeout(() => { this.isSpinning = false }, 3500);
+    setTimeout(() => { this.endGame() }, 3000);
+
   }
-  showWin(){
+  endGame() {
+    const isWin = Math.floor(Math.random() * 2);
+    (isWin) ? this.showWin() : setTimeout(() => { this.isSpinning = false }, 1000);
+  }
+  showWin() {
     this.audioService.playWin();
     this.totalWin = Math.floor(Math.random() * 999999 + 1);
-    this.jackpot()
+    this.displayWinAnimations()
   }
-  jackpot(){
-    const winIcon1 = this.document.getElementById('r1').getElementsByTagName('img');
-    const winIcon2 = this.document.getElementById('r2').getElementsByTagName('img');
-    const winIcon3 = this.document.getElementById('r3').getElementsByTagName('img');
-    const winIcon4 = this.document.getElementById('r4').getElementsByTagName('img');
-    const winIcon5 = this.document.getElementById('r5').getElementsByTagName('img');
+  clearCanvas() {
+    const canvas = <HTMLCanvasElement>document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  drawDemoWinLine() {
+    const canvas = <HTMLCanvasElement>document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.strokeStyle = 'green';
+    ctx.lineWidth = 4;
 
+    ctx.beginPath();
+    ctx.moveTo(0, 250);
+    ctx.lineTo(300, 50);
+    ctx.moveTo(300, 250);
+    ctx.lineTo(0, 50);
+    ctx.stroke();
+    setTimeout(() => {
+      this.clearCanvas();
+    }, 3000);
+  }
+  displayWinAnimations() {
 
-   const winLineCombinations = ['1,1,1,1,1','2,2,2,2,2','1,2,2,2,1'];
-   //for (let i = 1; i < 6; i++) {
-   // this["winIcon1" + i][winLineCombinations[0]].className = 'win';
-  //  }
-   winIcon1[1].className = 'win';
-   winIcon2[1].className = 'win';
-   winIcon3[1].className = 'win';
-   winIcon4[1].className = 'win';
-   winIcon5[1].className = 'win';
-   setTimeout(() => {
-    winIcon1[2].className = 'win';
-    winIcon2[2].className = 'win';
-    winIcon3[2].className = 'win';
-    winIcon4[2].className = 'win';
-    winIcon5[2].className = 'win';
+    let winIcon1 = this.document.getElementById('r1').getElementsByTagName('img');
+    let winIcon2 = this.document.getElementById('r2').getElementsByTagName('img');
+    let winIcon3 = this.document.getElementById('r3').getElementsByTagName('img');
+    let winIcon4 = this.document.getElementById('r4').getElementsByTagName('img');
+    let winIcon5 = this.document.getElementById('r5').getElementsByTagName('img');
+
+    // should be 25 at that game
+    const winLineCombinations = [
+      '1,1,1,1,1',
+      '2,2,2,2,2',
+      '1,2,2,2,1'
+    ];
+    // clear class
+    //DEMO WIN ANIM 
+    winIcon1[1].className = 'win';
+    winIcon2[1].className = 'win';
+    winIcon3[1].className = 'win';
+    winIcon4[1].className = 'win';
+    winIcon5[1].className = 'win';
+
+    setTimeout(() => {
+      this.clearAnimations();
+      winIcon1[2].className = 'win';
+      winIcon2[2].className = 'win';
+      winIcon3[2].className = 'win';
+      winIcon4[2].className = 'win';
+      winIcon5[2].className = 'win';
     }, 1500);
+    setTimeout(() => {
+      this.clearAnimations();
+    }, 3000);
+    setTimeout(() => {
+      this.clearAnimations();
+      winIcon1[1].className = 'win';
+      winIcon2[2].className = 'win';
+      winIcon3[3].className = 'win';
+      winIcon4[2].className = 'win';
+      winIcon5[1].className = 'win';
+      this.drawDemoWinLine();
+    }, 3500);
     this.totalWin = Math.floor(Math.random() * 999999 + 1000000);
+    setTimeout(() => { this.isSpinning = false }, 1000);
   }
   returnBack() {
     this.audioService.playClick();
@@ -124,24 +177,25 @@ export class GameComponent implements OnInit {
   }
   updateBetPlus() {
     this.audioService.playClick();
-    this.totalBet += 1
+    if (this.totalBet < this.currentLinesMaxBet) this.totalBet += 1
   }
   showPayTable() {
     this.audioService.playClick();
-    if(this.displayPayTable) {
+    if (this.displayPayTable) {
       this.displayPayTable = false;
     }
-    else{
+    else {
       this.displayPayTable = true;
     }
   }
   setMaxBet() {
     this.audioService.playClick();
-    this.totalBet = this.myBalance;
+    this.totalBet = this.currentLinesMaxBet;
   }
   spin() {
     if (this.isSpinning) return;
     this.audioService.playStartSpin();
+    this.clearAnimations();
     this.animateSpin();
   }
 

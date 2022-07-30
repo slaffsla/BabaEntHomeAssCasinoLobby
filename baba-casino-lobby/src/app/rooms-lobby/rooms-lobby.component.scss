@@ -29,7 +29,8 @@
     border-width: 2px;
     border-color: gold;
     border-radius: 2px;
-    border-style: solid
+    border-style: solid;
+    animation: animRollOver 0.5s 5 alternate;
 }
 
 .carusel {
@@ -71,6 +72,8 @@
 
     to {
         transform: scale(1.1);
+      
+        
     }
 }
 

@@ -26,9 +26,17 @@ export class RoomsLobbyComponent implements OnInit {
       'https://cdn.babacasino.net/common/master/assets/images/mainLobby/slotsIcons/icon_1130.png'
     ]
     gameList.forEach(function (item: GameCard) {
-      if (badImageUrls.includes(item.image)) {
-        item.image = 'https://cdn.babacasino.net/uploadImages/icon_1142.png'
+      if(item.image.includes('icon_1132.png')){
+        console.log('replace item');
+        item.image = 'https://cdn.babacasino.net/uploadImages/icon_1147.png';
       }
+      else if(item.image.includes('icon_1128.png')){
+        item.image = 'https://cdn.babacasino.net/uploadImages/icon_1136.png';
+      }
+      else if (badImageUrls.includes(item.image)) {
+        item.image = 'https://cdn.babacasino.net/uploadImages/icon_1146.png'
+      }
+   
     });
     return gameList;
   }
