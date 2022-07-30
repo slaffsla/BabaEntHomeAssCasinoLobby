@@ -1,0 +1,21 @@
+<div *ngIf="(!settingsLoaded)" class="preloader">
+  <img class="card-img-top" src='../../assets/slot-1128/symbol_2.png' style="width:60px;height: 60px;">
+  <label>Please wait Loading ... </label>
+  <mat-progress-bar  mode="query"></mat-progress-bar>
+</div>
+<div class="carusel" *ngIf="(settingsLoaded)">
+  <div class="ngx-corusel-holder" style="display: inline-flex;">
+    <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)"
+      (breakpoint)="breakpoint($event)" (beforeChange)="beforeChange($event)">
+      <div ngxSlickItem *ngFor="let slide of slides" class="{{slide.isLocked ? 'disabledSlide' : 'slide'}}"
+        (click)="onClick($event, slide)">
+        <div *ngIf="(slide.jackpot)" class='jackpot'>
+          <span [CountTo]="slide.jackpot" [from]="count.from" [duration]="count.duration"></span>
+        </div>
+        <img src="{{ slide.image }}" width="100%">
+        <img *ngIf="(slide.isLocked)" class='locker' src="../assets/lobby/lock.png" alt="slide me" width="100%">
+
+      </div>
+    </ngx-slick-carousel>
+  </div>
+</div>

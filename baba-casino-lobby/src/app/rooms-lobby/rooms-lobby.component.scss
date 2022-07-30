@@ -1,0 +1,91 @@
+.preloader {
+    position: fixed;
+    font-family: "Digitaldream", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    left: 50%;
+    top: 50%;
+    border-radius: 6px;
+    color: rgb(0, 50, 17);
+    text-align: center;
+}
+
+.locker {
+    position: absolute;
+    top: 50%;
+}
+
+.jackpot {
+    font-family: "Digitaldream", Arial, Helvetica, sans-serif;
+    font-size: medium;
+    color: white;
+    background-color: darkred;
+    text-align: center;
+    top: 10%;
+    position: absolute;
+    font-size: 16px;
+    font-weight: bold;
+    width: 150px;
+    border-width: 2px;
+    border-color: gold;
+    border-radius: 2px;
+    border-style: solid
+}
+
+.carusel {
+    display: inline-flex;
+    padding-top: 200px;
+    justify-content: center;
+    width: 100%;
+}
+
+.slide {
+    cursor: pointer;
+    display: flex;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.disabledSlide {
+    cursor: pointer;
+    filter: grayscale(90%);
+    display: inline-flex;
+    justify-content: center;
+}
+
+.disabledSlide:hover {
+    animation: animRollOver 1s;
+    animation-fill-mode: forwards;
+}
+
+.slide:hover {
+    animation: animRollOver 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animRollOver {
+    from {
+        transform: scale(1)
+    }
+
+    to {
+        transform: scale(1.1);
+    }
+}
+
+.room-card {
+    width: 200px;
+    height: 300px;
+    background-color: grey;
+    margin-left: 10px;
+}
+
+.room-gallery {
+    display: inline-flex;
+}
+
+.ngx-corusel-holder {
+    width: 800px;
+    height: 400px;
+}

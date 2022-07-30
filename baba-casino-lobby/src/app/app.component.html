@@ -1,0 +1,7 @@
+<div class="content" role="main">
+  <div class="sound">
+    <input (click)="muteSound()" *ngIf="(!muted)" class="on" type="image" src='../assets/lobby/sound-on-icon.png' />
+    <input (click)="unMuteSound()" *ngIf="(muted)" class="off" type="image" src='../assets/lobby/mute-icon.png' />
+  </div>
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,95 @@
+@font-face {
+    font-family: "Digitaldream";
+    src: local("Digitaldream"), url(./assets/fonts/DigitaldreamFatSkewNarrow.woff) format("truetype");
+}
+body{
+    background-image: url('./assets/lobby/background.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-color: rgb(49, 151, 49);
+}
+.wheels-wrapper{
+    img{
+        width: 125px;
+        height: 125px;
+    }
+}
+.slick-slider {
+    width: 90%;
+    margin: auto;
+}
+@keyframes aniHover {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.6);
+    }
+  }
+.slick-arrow{
+    position: absolute;
+ 
+}
+
+.slick-arrow:hover{
+    animation: aniHover 1s;
+    animation-fill-mode: forwards;
+    margin-top: -25px;
+}
+.slick-dots {
+    bottom: -50px;
+    li {
+        height: 35px;
+        width: 35px;
+        background: url('./assets/lobby/bullet-off.png') no-repeat scroll;
+        background-position: -16px -16px;
+        background-size: 150% auto;
+        button{
+            opacity: -2;
+        }
+    }
+    li:hover {
+        height: 35px;
+        width: 35px;
+        background: url('./assets/lobby/bullet-on.png') no-repeat scroll;
+        background-position: -16px -16px;
+        background-size: 150% auto;
+        button{
+            opacity: -2;
+        }
+    }
+    .slick-active {
+        list-style-type: none;
+        height: 35px;
+        width: 35px;
+        background: url('./assets/lobby/bullet-on.png') no-repeat scroll;
+        background-position: -16px -16px;
+        background-size: 150% auto;
+        button{
+            opacity: -2;
+        }
+    }
+}
+
+.nav-btn {
+    height: 47px;
+    position: absolute;
+    width: 26px;
+    cursor: pointer;
+    top: 100px !important;
+}
+
+.prev-slide.slick-disabled,
+.next-slide.slick-disabled {
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+
+.prev-slide:hover {
+    background-position: 0px -53px;
+}
+
+.next-slide:hover {
+    background-position: -24px -53px;
+}

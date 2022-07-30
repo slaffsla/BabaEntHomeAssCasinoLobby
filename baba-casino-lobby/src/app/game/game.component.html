@@ -1,0 +1,70 @@
+<div class="slot-game-wrapper">
+    <div class="close-btn">
+        <input class="intBtn" (click)="returnBack()" class="off" type="image" src='../assets/lobby/arrow-left.png' />
+        <label>GO BACK</label>
+    </div>
+    <div *ngIf="(displayPayTable)" class="paytable">
+        <div class="card" style="width:100%;height:50%;z-index: 9;display: inline-grid;justify-content: center;">
+            <img class="card-img-top" src='../../assets/slot-1128/symbol_2.png' style="width:70px;height: 60px;"
+                alt="Card image">
+            <div class="card-body">
+                <h5 class="card-title">PAYTABLE</h5>
+                <p class="card-text">777xxx77777</p>
+                <a (click)="showPayTable()" class="btn btn-primary">Close</a>
+            </div>
+        </div>
+    </div>
+    <div class="logo">
+        <img src='../assets/slot-1128/logo.png'>
+        <div class="win-table">
+            <span [CountTo]=500072001307 [from]=0 [duration]=3 style="color: red;"></span>
+            <span [CountTo]=125100801942 [from]=0 [duration]=3 style="color: rgb(255, 85, 0);"></span>
+            <span [CountTo]=35158403052 [from]=0 [duration]=3 style="color: rgba(255, 153, 0, 0.936);"></span>
+            <span [CountTo]=15244804717 [from]=0 [duration]=3 style="color: rgb(255, 191, 0);"></span>
+            <span [CountTo]=4731427500 [from]=0 [duration]=3 style="color: rgb(255, 242, 0);"></span>
+        </div>
+    </div>
+
+    <div class="machineBox">
+        <div class="wheels-wrapper">
+            <div class="reelDivMain" id="r1" style="margin-left: -9px;">
+                <div class={{r1Class}} *ngFor="let item of wheel1">
+                    <img src={{item}}>
+                </div>
+            </div>
+            <div class="reelDivMain" id="r2" style="margin-left: 18px;">
+                <div class={{r2Class}} *ngFor="let item of wheel2">
+                    <img src={{item}}>
+                </div>
+            </div>
+            <div class="reelDivMain" id="r3" style="margin-left: 22px;">
+                <div class={{r3Class}} *ngFor="let item of wheel3">
+                    <img src={{item}}>
+                </div>
+            </div>
+            <div class="reelDivMain" id="r4" style="margin-left: 20px;">
+                <div class={{r4Class}} *ngFor="let item of wheel4">
+                    <img src={{item}}>
+                </div>
+            </div>
+            <div class="reelDivMain" id="r5" style="margin-left: 29px;">
+                <div class={{r5Class}} *ngFor="let item of wheel5">
+                    <img src={{item}}>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-panel-texts">
+        <label id="totalBet">$ {{totalBet}}</label>
+        <label id="totalWin">$ {{totalWin}}</label>
+    </div>
+    <div class="btn-panel">
+        <input (click)="updateBetMinus()" class="intBtn" type="image" src='../assets/slot-1128/but_bet_minus.png' />
+        <input (click)="updateBetPlus()" class="intBtn" type="image" src='../assets/slot-1128/but_bet_plus.png' />
+        <input (click)="showPayTable()" class="intBtn" type="image" src='../assets/slot-1128/but_info_bg.png' />
+        <input (click)="setMaxBet()" class="intBtn" type="image" src='../assets/slot-1128/but_maxbet_bg.png' />
+        <input (click)="spin()" class="intBtn" style="padding-left: 100px" type="image"
+            src='../assets/slot-1128/but_spin_bg.png' />
+    </div>
+</div>

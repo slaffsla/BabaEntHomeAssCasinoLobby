@@ -1,0 +1,317 @@
+.slot-game-wrapper {
+  font-family: "Digitaldream", Arial, Helvetica, sans-serif;
+  width: 1920px;
+  height: 1009px;
+  background-color: black;
+  background-image: url('../../assets/slot-1128/game_background.jpg');
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  position: fixed;
+  transform: scale(0.9);
+  top: -50px;
+  left: -150px;
+}
+.paytable{
+  background-color: black;
+  color: yellowgreen;
+}
+.machineBox {
+  width: 100%;
+  height: 100%;
+  background-image: url('../../assets/slot-1128/mask_game.png');
+  background-repeat: no-repeat;
+  top: 0px;
+  left: 0px;
+  position: absolute;
+
+  .wheels-wrapper {
+    position: absolute;
+    left: 589px;
+    top: 331px;
+    height: 419px;
+    display: inline-flex;
+    overflow: hidden;
+  }
+ 
+  .reel {
+    display: list-item;
+    padding-left: 10px;
+
+  }
+
+  .wheel-wrap {
+    background-color: white;
+    width: 150px;
+    margin-left: 5px;
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+    height: 200px;
+  }
+
+  .wheel {
+    background-color: grey;
+  }
+}
+
+.logo {
+  position: absolute;
+  top: 24px;
+  left: 525px;
+  z-index: 2;
+  display: inline-flex;
+
+  image {
+    height: 286px;
+    width: 417px;
+  }
+
+  label {
+    color: white;
+  }
+
+  .win-table {
+    position: absolute;
+    display: inline-grid;
+    width: 900px;
+    text-align: right;
+    padding-top: 36px;
+    font-size: 20px;
+
+    span {
+      padding-top: 10px;
+      font-size: 25px;
+    }
+  }
+
+}
+
+.close-btn {
+  position: fixed;
+  top: 10px;
+  left: 200px;
+  height: 40px;
+  width: 400px;
+  z-index: 2;
+  display: inline-flex;
+  cursor: pointer;
+
+  label {
+    color: white;
+    font-size: 20px;
+    margin-top: 4px;
+  }
+}
+
+.btn-panel-texts {
+  position: absolute;
+  bottom: 202px;
+  left: 580px;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+
+  label {
+    width: 200px;
+  }
+
+  #totalWin {
+    margin-left: 120px;
+  }
+}
+
+.btn-panel {
+  position: absolute;
+  bottom: 100px;
+  left: 526px;
+
+  .intBtn {
+    cursor: pointer;
+  }
+
+}
+
+.intBtn {
+  transform: scale(1);
+
+}
+
+.intBtn:hover {
+  transform: scale(1.1)
+}
+
+@keyframes animRollOverSlot {
+  from {
+    transform: scale(1)
+  }
+
+  to {
+    transform: scale(1.1);
+  }
+}
+
+
+@keyframes bombBump {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(2);
+  }
+}
+
+
+#coin {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  animation: animCoin1 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes animCoin1 {
+  from {
+    top: 0px;
+  }
+
+  to {
+    top: 200px;
+    transform: scale(4);
+  }
+
+}
+
+@keyframes animSpinBottom {
+  from {
+    transform: translateY()
+  }
+
+  to {
+    transform: translateY(2000%)
+  }
+
+}
+
+@keyframes animSpinTop {
+  from {
+    transform: translateY()
+  }
+
+  to {
+    transform: translateY(-1000%)
+  }
+
+}
+
+.idle {
+  height: 140px;
+}
+
+.spinTop {
+  height: 150px;
+  animation: animSpinTop 3s;
+  animation-iteration-count: infinite;
+}
+
+.spinBottom {
+  height: 140px;
+  animation: animSpinBottom 3s;
+  animation-fill-mode: both;
+
+}
+
+.reelDivMain {
+  top: -2937px;
+  position: relative;
+  padding-left: 20px;
+}
+
+@keyframes spinMe {
+  from {
+    top: 0px;
+  }
+
+  to {
+    top: -2000px;
+  }
+}
+@keyframes animWin {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.2);
+    background: #c3ad00;
+  }
+}
+.spinning {
+  animation: animSpin 2s;
+  animation-iteration-count: 3;
+}
+.win{
+  animation: animWin 0.5s;
+  animation-iteration-count: 3;
+ 
+}
+.blink {
+  animation: blink 0.4s infinite alternate;
+  -webkit-animation: blink 0.4s infinite alternate;
+}
+
+@keyframes blink {
+  to {
+    background: #c3ad00;
+  }
+}
+
+@-webkit-keyframes blink {
+  to {
+    background: #c3ad00;
+  }
+}
+
+body {
+  background: black !important;
+}
+
+.gold {
+  color: gold !important;
+}
+
+.green {
+  color: green;
+}
+
+.v-align {
+  vertical-align: inherit !important;
+}
+
+div.modal-footer,
+div.modal-body,
+div.modal-header {
+  background-color: #000000de;
+  color: white;
+}
+
+.preview {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: black !important;
+  margin: auto;
+  z-index: 999999;
+  width: 480px;
+  text-align: center;
+}
+
+.preview img {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: black !important;
+  margin: auto;
+  z-index: 999999999;
+}
