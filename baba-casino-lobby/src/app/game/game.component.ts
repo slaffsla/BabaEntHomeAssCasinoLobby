@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, HostListener  } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AudioService } from '../services/audio-service';
 import { DOCUMENT } from '@angular/common';
@@ -9,6 +9,13 @@ import { DOCUMENT } from '@angular/common';
 })
 export class GameComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private audioService: AudioService, @Inject(DOCUMENT) private document: Document) {
+  }
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+      if(event.code == 'Space'){
+        this.spin();
+      }
+    
   }
   public isSpinning: boolean = false;
   public totalBet: number = 1;
@@ -156,13 +163,14 @@ export class GameComponent implements OnInit {
       this.clearAnimations();
     }, 3000);
     setTimeout(() => {
-      this.drawDemoWinLine();
+    
       this.clearAnimations();
       winIcon1[1].className = 'win';
       winIcon2[2].className = 'win';
       winIcon3[3].className = 'win';
       winIcon4[2].className = 'win';
       winIcon5[1].className = 'win';
+      this.drawDemoWinLine();
     }, 3500);
     this.totalWin = Math.floor(Math.random() * 999999 + 1000000);
     setTimeout(() => { this.isSpinning = false }, 1000);
