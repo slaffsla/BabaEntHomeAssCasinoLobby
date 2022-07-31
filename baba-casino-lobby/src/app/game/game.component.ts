@@ -130,8 +130,7 @@ export class GameComponent implements OnInit {
     let winIcon3 = this.document.getElementById('r3').getElementsByTagName('img');
     let winIcon4 = this.document.getElementById('r4').getElementsByTagName('img');
     let winIcon5 = this.document.getElementById('r5').getElementsByTagName('img');
-
-    // should be 25 at that game
+    // possible win lines for animations
     const winLineCombinations = [
       '1,1,1,1,1',
       '2,2,2,2,2',
@@ -157,13 +156,13 @@ export class GameComponent implements OnInit {
       this.clearAnimations();
     }, 3000);
     setTimeout(() => {
+      this.drawDemoWinLine();
       this.clearAnimations();
       winIcon1[1].className = 'win';
       winIcon2[2].className = 'win';
       winIcon3[3].className = 'win';
       winIcon4[2].className = 'win';
       winIcon5[1].className = 'win';
-      this.drawDemoWinLine();
     }, 3500);
     this.totalWin = Math.floor(Math.random() * 999999 + 1000000);
     setTimeout(() => { this.isSpinning = false }, 1000);

@@ -14,7 +14,11 @@
         </div>
         <img src="{{ slide.image }}" width="100%">
         <img *ngIf="(slide.isLocked)" class='locker' src="../assets/lobby/lock.png" alt="slide me" width="100%">
-
+        <div *ngIf="(slide.id == 1128)" id='bubble' >
+             <label>CLICK ME</label> 
+             <br>
+             <label>I AM 1128</label> 
+          </div>
       </div>
     </ngx-slick-carousel>
   </div>
