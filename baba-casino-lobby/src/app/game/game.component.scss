@@ -306,3 +306,7 @@ div.modal-header {
   background-color: #000000de;
   color: white;
 }
+
+.disabled {
+  filter: grayscale(90%);
+}

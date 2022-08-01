@@ -44,7 +44,7 @@ export class GameComponent implements OnInit {
   public lastState4 = [];
   public lastState5 = [];
   public gameId: any = 0;
-
+  public spinBtnClass = 'enabled'
   private playingWinAnim: boolean = false;
   private playingWinAnimTimeouts = [];
   generateRandomWheel() {
@@ -79,14 +79,11 @@ export class GameComponent implements OnInit {
   animateSpin() {
     this.playingWinAnimTimeouts.forEach((timeout) => { clearTimeout(timeout) });
     this.isSpinning = true;
+    this.spinBtnClass = 'disabled';
     this.totalWin = 0;
-    this.lastState1 = [this.wheel1[1], this.wheel1[2], this.wheel1[3]];
-    this.lastState2 = [this.wheel2[1], this.wheel2[2], this.wheel2[3]];
-    this.lastState3 = [this.wheel3[1], this.wheel3[2], this.wheel3[3]];
-    this.lastState4 = [this.wheel4[1], this.wheel4[2], this.wheel4[3]];
-    this.lastState5 = [this.wheel5[1], this.wheel5[2], this.wheel5[3]];
 
     for (let i = 1; i < 6; i++) {
+      this["lastState" + i] = [this["wheel"+i][1], this["wheel"+i][2], this["wheel"+i][3]];
       this["wheel" + i] = [...this.generateRandomWheel()];
       this["r" + i + "Class"] = 'idle';
       this["wheel" + i][21] = this["lastState" + i][0];
@@ -100,7 +97,7 @@ export class GameComponent implements OnInit {
   }
   endGame() {
     const isWin = Math.floor(Math.random() * 2);
-    (isWin) ? this.showWin() : setTimeout(() => { this.isSpinning = false }, 1000);
+    (isWin) ? this.showWin() : setTimeout(() => { this.isSpinning = false;this.spinBtnClass = 'enabled'; }, 1000);
   }
   showWin() {
     this.audioService.playWin();
@@ -181,11 +178,9 @@ export class GameComponent implements OnInit {
   private winIcon5: HTMLCollectionOf<HTMLImageElement>;
 
   displayWinAnimations() {
-    this.winIcon1 = this.document.getElementById('r1').getElementsByTagName('img');
-    this.winIcon2 = this.document.getElementById('r2').getElementsByTagName('img');
-    this.winIcon3 = this.document.getElementById('r3').getElementsByTagName('img');
-    this.winIcon4 = this.document.getElementById('r4').getElementsByTagName('img');
-    this.winIcon5 = this.document.getElementById('r5').getElementsByTagName('img');
+    for (let i = 1; i < 6; i++) {
+      this["winIcon"+i] = this.document.getElementById('r'+i).getElementsByTagName('img');
+    }
     // possible win lines for animations
     const winLineCombinations = [
       '1,1,1,1,1',
@@ -206,8 +201,7 @@ export class GameComponent implements OnInit {
         }
       }, 3000 * i));
     }
-    console.log('win anim timeouts', this.playingWinAnimTimeouts);
-    setTimeout(() => { this.isSpinning = false }, 1000);
+    setTimeout(() => { this.isSpinning = false;this.spinBtnClass = 'enabled';  }, 1000);
     this.totalWin = Math.floor(Math.random() * 999999 + 1000000);
   }
   returnBack() {
