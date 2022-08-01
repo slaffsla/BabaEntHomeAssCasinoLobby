@@ -154,7 +154,7 @@ export class GameComponent implements OnInit {
         break;
       case '3,2,1,2,3':
         ctx.strokeStyle = 'darkgreen';
-        ctx.moveTo(0, 125);
+        ctx.moveTo(0, 150);
         ctx.lineTo(150, 25);
         ctx.moveTo(150, 25);
         ctx.lineTo(300, 150);
