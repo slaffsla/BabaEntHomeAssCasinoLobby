@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener  } from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AudioService } from '../services/audio-service';
 import { DOCUMENT } from '@angular/common';
@@ -12,16 +12,16 @@ export class GameComponent implements OnInit {
   }
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-      if(event.code == 'Space'){
-        this.spin();
-      }
-    
+    if (event.code == 'Space') {
+      this.spin();
+    }
+
   }
   public isSpinning: boolean = false;
   public totalBet: number = 1;
   public totalWin: number = 0;
   public myBalance: number = 1000;
-  public totalLines:number = 25;
+  public totalLines: number = 25;
   public currentBet: number = 1;
 
   public displayPayTable: boolean = false;
@@ -45,6 +45,8 @@ export class GameComponent implements OnInit {
   public lastState5 = [];
   public gameId: any = 0;
 
+  private playingWinAnim: boolean = false;
+  private playingWinAnimTimeouts = [];
   generateRandomWheel() {
     const imgPath: string = "../assets/slot-1128/symbol_";
     const rList: string[] = Array.from({ length: 24 }, () => (imgPath + Math.floor(Math.random() * 11 + 1) + '.png'));
@@ -72,9 +74,10 @@ export class GameComponent implements OnInit {
         htmlObject[i].className = className;
       }
     }
-    updateClass(this.document.getElementById('wheels-wrapper').getElementsByTagName('img'), 'none');
+    updateClass(this.document.getElementById('wheels-wrapper').getElementsByTagName('img'), 'clean');
   }
   animateSpin() {
+    this.playingWinAnimTimeouts.forEach((timeout) => { clearTimeout(timeout) });
     this.isSpinning = true;
     this.totalWin = 0;
     this.lastState1 = [this.wheel1[1], this.wheel1[2], this.wheel1[3]];
@@ -89,13 +92,8 @@ export class GameComponent implements OnInit {
       this["wheel" + i][21] = this["lastState" + i][0];
       this["wheel" + i][22] = this["lastState" + i][1];
       this["wheel" + i][23] = this["lastState" + i][2];
+      setTimeout(() => { this['r' + i + 'Class'] = 'spinBottom' }, Math.floor(Math.random() * 300));
     }
-
-    setTimeout(() => { this.r1Class = 'spinBottom' }, 90);
-    setTimeout(() => { this.r2Class = 'spinBottom' }, 100);
-    setTimeout(() => { this.r3Class = 'spinBottom' }, 95);
-    setTimeout(() => { this.r4Class = 'spinBottom' }, 110);
-    setTimeout(() => { this.r5Class = 'spinBottom' }, 150);
     setTimeout(() => { this.audioService.playEndSpin() }, 650);
     setTimeout(() => { this.endGame() }, 3000);
 
@@ -114,66 +112,103 @@ export class GameComponent implements OnInit {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
-  drawDemoWinLine() {
+  drawDemoWinLine(indexes) {
     const canvas = <HTMLCanvasElement>document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     ctx.strokeStyle = 'green';
     ctx.lineWidth = 4;
-
     ctx.beginPath();
-    ctx.moveTo(0, 250);
-    ctx.lineTo(300, 50);
-    ctx.moveTo(300, 250);
-    ctx.lineTo(0, 50);
-    ctx.stroke();
-    setTimeout(() => {
-      this.clearCanvas();
-    }, 3000);
-  }
-  displayWinAnimations() {
+    const winType = indexes.join();
+    switch (winType) {
+      case '1,1,1,1,1':
+        ctx.moveTo(0, 25);
+        ctx.lineTo(300, 25);
+        break;
+      case '2,2,2,2,2':
+        ctx.strokeStyle = 'blue';
+        ctx.moveTo(0, 75);
+        ctx.lineTo(300, 75);
+        break;
+      case '3,3,3,3,3':
+        ctx.strokeStyle = 'red';
+        ctx.moveTo(0, 125);
+        ctx.lineTo(300, 125);
+        break;
+      case '1,2,3,2,1':
+        ctx.strokeStyle = 'darkblue';
+        ctx.moveTo(0, 0);
+        ctx.lineTo(150, 150);
+        ctx.moveTo(150, 150);
+        ctx.lineTo(300, 0);
+        break;
+      case '1,1,2,1,1':
+        ctx.strokeStyle = 'orange';
+        ctx.moveTo(0, 25);
+        ctx.lineTo(125, 25);
+        ctx.moveTo(125, 25);
+        ctx.lineTo(150, 50);
+        ctx.moveTo(150, 50);
+        ctx.lineTo(175, 25);
+        ctx.moveTo(175, 25);
+        ctx.lineTo(300, 25);
+        break;
+      case '3,2,1,2,3':
+        ctx.strokeStyle = 'darkgreen';
+        ctx.moveTo(0, 125);
+        ctx.lineTo(150, 25);
+        ctx.moveTo(150, 25);
+        ctx.lineTo(300, 150);
+        break;
 
-    let winIcon1 = this.document.getElementById('r1').getElementsByTagName('img');
-    let winIcon2 = this.document.getElementById('r2').getElementsByTagName('img');
-    let winIcon3 = this.document.getElementById('r3').getElementsByTagName('img');
-    let winIcon4 = this.document.getElementById('r4').getElementsByTagName('img');
-    let winIcon5 = this.document.getElementById('r5').getElementsByTagName('img');
+    }
+    ctx.stroke();
+  }
+  setWinClassAnim(indexes = []) {
+    this.clearAnimations();
+    setTimeout(() => {
+      this.winIcon1[indexes[0]].className = 'win';
+      this.winIcon2[indexes[1]].className = 'win';
+      this.winIcon3[indexes[2]].className = 'win';
+      this.winIcon4[indexes[3]].className = 'win';
+      this.winIcon5[indexes[4]].className = 'win';
+      this.drawDemoWinLine(indexes);
+    }, 1000);
+  }
+  private winIcon1: HTMLCollectionOf<HTMLImageElement>;
+  private winIcon2: HTMLCollectionOf<HTMLImageElement>;
+  private winIcon3: HTMLCollectionOf<HTMLImageElement>;
+  private winIcon4: HTMLCollectionOf<HTMLImageElement>;
+  private winIcon5: HTMLCollectionOf<HTMLImageElement>;
+
+  displayWinAnimations() {
+    this.winIcon1 = this.document.getElementById('r1').getElementsByTagName('img');
+    this.winIcon2 = this.document.getElementById('r2').getElementsByTagName('img');
+    this.winIcon3 = this.document.getElementById('r3').getElementsByTagName('img');
+    this.winIcon4 = this.document.getElementById('r4').getElementsByTagName('img');
+    this.winIcon5 = this.document.getElementById('r5').getElementsByTagName('img');
     // possible win lines for animations
     const winLineCombinations = [
       '1,1,1,1,1',
       '2,2,2,2,2',
-      '1,2,2,2,1'
+      '3,3,3,3,3',
+      '1,2,3,2,1',
+      '1,1,2,1,1',
+      '3,2,1,2,3'
     ];
-    // clear class
-    //DEMO WIN ANIM 
-    winIcon1[1].className = 'win';
-    winIcon2[1].className = 'win';
-    winIcon3[1].className = 'win';
-    winIcon4[1].className = 'win';
-    winIcon5[1].className = 'win';
-
-    setTimeout(() => {
-      this.clearAnimations();
-      winIcon1[2].className = 'win';
-      winIcon2[2].className = 'win';
-      winIcon3[2].className = 'win';
-      winIcon4[2].className = 'win';
-      winIcon5[2].className = 'win';
-    }, 1500);
-    setTimeout(() => {
-      this.clearAnimations();
-    }, 3000);
-    setTimeout(() => {
-    
-      this.clearAnimations();
-      winIcon1[1].className = 'win';
-      winIcon2[2].className = 'win';
-      winIcon3[3].className = 'win';
-      winIcon4[2].className = 'win';
-      winIcon5[1].className = 'win';
-      this.drawDemoWinLine();
-    }, 3500);
-    this.totalWin = Math.floor(Math.random() * 999999 + 1000000);
+    this.playingWinAnim = true;
+    this.playingWinAnimTimeouts = [];
+    for (let i = 0; i < winLineCombinations.length + 1; i++) {
+      this.playingWinAnimTimeouts.push(setTimeout(() => {
+        if (i === winLineCombinations.length) {
+          this.playingWinAnim = false;
+        } else {
+          this.setWinClassAnim(winLineCombinations[i].split(','));
+        }
+      }, 3000 * i));
+    }
+    console.log('win anim timeouts', this.playingWinAnimTimeouts);
     setTimeout(() => { this.isSpinning = false }, 1000);
+    this.totalWin = Math.floor(Math.random() * 999999 + 1000000);
   }
   returnBack() {
     this.audioService.playClick();
@@ -181,19 +216,19 @@ export class GameComponent implements OnInit {
   }
   updateBetMinus() {
     this.audioService.playClick();
-    if (this.currentBet > 0){
+    if (this.currentBet > 0) {
       this.currentBet -= 1
       this.setTotalBet();
-    } 
+    }
   }
   updateBetPlus() {
     this.audioService.playClick();
     this.currentBet += 1;
     this.setTotalBet();
-    
+
   }
-  setTotalBet(){
-    this.totalBet = (this.currentBet * 25 );
+  setTotalBet() {
+    this.totalBet = (this.currentBet * 25);
   }
   showPayTable() {
     this.audioService.playClick();
